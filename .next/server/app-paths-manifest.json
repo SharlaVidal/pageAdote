@@ -1,5 +1,5 @@
 {
+  "/contato/page": "app/contato/page.js",
   "/page": "app/page.js",
-  "/todosPets/page": "app/todosPets/page.js",
-  "/contato/page": "app/contato/page.js"
+  "/todosPets/page": "app/todosPets/page.js"
 }
