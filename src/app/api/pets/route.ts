@@ -1,13 +1,17 @@
-// app/api/pets/route.ts (caso utilize a pasta `app`)
-import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma"; // Importação do Prisma configurado
+import { prisma } from "@/lib/prisma";
 
-export async function GET() {
-  try {
-    const pets = await prisma.pet.findMany(); // Buscando pets no banco
-    return NextResponse.json(pets); // Retorna os pets como JSON
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Erro ao buscar pets" }, { status: 500 });
+export default async function handler(req, res) {
+  if (req.method === "POST") {
+    const { name, ageCategory, size, description, photoUrl } = req.body;
+    try {
+      const newPost = await prisma.post.create({
+        data: { name, ageCategory, size, description, photoUrl },
+      });
+      res.status(201).json(newPost);
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao criar o post." });
+    }
+  } else {
+    res.status(405).json({ error: "Método não permitido." });
   }
 }

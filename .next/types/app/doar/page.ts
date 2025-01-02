@@ -1,4 +1,4 @@
-// File: C:\Users\sharl\Desktop\modernize-admin-dashboard-main\landingpage\src\app\doar\page.tsx
+// File: C:\Users\sharl\Desktop\landingpage\src\app\doar\page.tsx
 import * as entry from '../../../../src/app/doar/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
