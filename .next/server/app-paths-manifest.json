@@ -1,8 +1,6 @@
 {
-  "/api/posts/route": "app/api/posts/route.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/todosPets/page": "app/todosPets/page.js",
-  "/contato/page": "app/contato/page.js",
-  "/doar/page": "app/doar/page.js"
+  "/contato/page": "app/contato/page.js"
 }
