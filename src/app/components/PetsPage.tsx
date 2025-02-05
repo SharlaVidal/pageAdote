@@ -19,7 +19,7 @@ type Pet = {
   age: string;
   size: string;
   location: string;
-  image: string;
+  photoUrl: string;
 };
 
 type PetsPageProps = {
@@ -37,7 +37,7 @@ const PetCard = ({ pet, onCardClick }: { pet: Pet; onCardClick: (pet: Pet) => vo
       <CardMedia
         component="img"
         height="200"
-        image={pet.image}
+        image={pet.photoUrl}
         alt={pet.name}
       />
       <Chip

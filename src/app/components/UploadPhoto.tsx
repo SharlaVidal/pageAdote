@@ -1,23 +1,44 @@
 import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from "uuid";
 
-export default function UploadPhoto({ onUpload }) {
+// Inicialize o cliente do Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
+export default function UploadPhoto({ onUpload }: { onUpload: (url: string) => void }) {
   const [loading, setLoading] = useState(false);
 
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "your_upload_preset"); // Configuração no Cloudinary
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const sanitizedFileName = file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9.\-_]/g, "");
+    const uniqueName = `${uuidv4()}_${sanitizedFileName}`;
 
     setLoading(true);
-    const res = await fetch("https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    setLoading(false);
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("uploads") // Nome do bucket
+      .upload(`public/${uniqueName}`, file);
 
-    onUpload(data.secure_url); // Retorna a URL da imagem
+    if (uploadError) {
+      console.error("Erro no upload:", uploadError.message);
+    } else {
+      // Obtenha a URL pública diretamente
+      const { data } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(`public/${uniqueName}`);
+
+      if (data?.publicUrl) {
+        console.log("URL da imagem:", data.publicUrl);
+        onUpload(data.publicUrl); // Retorna a URL pública
+      } else {
+        console.error("Erro ao obter a URL pública.");
+      }
+    }
+
+    setLoading(false);
   };
 
   return (

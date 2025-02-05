@@ -1,54 +1,38 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PetsPage from '../components/PetsPage';
-import { Modal, Box, Typography } from '@mui/material';
+import { Modal, Box, Typography, CircularProgress } from '@mui/material';
 import PetSearch from '../components/PetSearch';
 
 const TodosOsPets = () => {
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
 
-  const pets = [
-    {
-      id: 1,
-      name: 'Bob',
-      gender: 'MACHO',
-      age: 'ADULTO',
-      size: 'MÉDIO PORTE',
-      location: 'JAGUARIÚNA, SP',
-      image: 'https://lh6.googleusercontent.com/proxy/QnLIbxxN5bJbBGiEtrw-u38kM937ZsMoVwIfARGf8J8_uIu1cXcyr8bc8mD055xZ-C4cuKfYnvylRVwmG32StTiZnDcuHkHvWB9TI-fTjOX_kr1tjLSM6V6jvs5vj14W30y_1C0PhroGyyoRPRhWUvsqP7uSwA',
-    },
-    {
-      id: 2,
-      name: 'Cat Lavine',
-      gender: 'FÊMEA',
-      age: 'ADULTO',
-      size: 'PEQUENO PORTE',
-      location: 'AMPARO, SP',
-      image: 'https://fly.metroimg.com/upload/q_85,w_700/https://uploads.metroimg.com/wp-content/uploads/2024/03/29114436/4-curiosidades-sobre-vira-latas-tipo-de-cao-que-protegeu-bebe-fujao.jpg',
-    },
-    {
-      id: 3,
-      name: 'Clotilde',
-      gender: 'FÊMEA',
-      age: 'FILHOTE',
-      size: 'MÉDIO PORTE',
-      location: 'AMPARO, SP',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsFrD5O1T_y-ctTcoVx_GEup-jlVAMW2uf8w&s',
-    },
-    {
-      id: 4,
-      name: 'Cris',
-      gender: 'FÊMEA',
-      age: 'ADULTO',
-      size: 'PEQUENO PORTE',
-      location: 'ANGRA DOS REIS, RJ',
-      image: 'https://blog-static.petlove.com.br/wp-content/uploads/2021/07/Cachorro-vira-lata-filhote-na-grama.jpg',
-    },
-  ];
+  // Função para buscar os dados da API
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const response = await fetch('/api/posts'); 
+        if (!response.ok) {
+          throw new Error('Erro ao buscar pets');
+        }
+        const data = await response.json();
+        setPets(data); 
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleOpen = (pet) => {
+    fetchPets();
+  }, []);
+
+  const handleOpen = (pet: any) => {
     setSelectedPet(pet);
     setOpen(true);
   };
@@ -61,7 +45,13 @@ const TodosOsPets = () => {
   return (
     <main>
       <PetSearch />
-      <PetsPage pets={pets} onCardClick={handleOpen} />
+      {loading ? (
+        <CircularProgress />
+      ) : error ? (
+        <Typography color="error">{error}</Typography>
+      ) : (
+        <PetsPage pets={pets} onCardClick={handleOpen} />
+      )}
 
       {/* Modal */}
       <Modal
@@ -89,7 +79,7 @@ const TodosOsPets = () => {
                 {selectedPet.name}
               </Typography>
               <img
-                src={selectedPet.image}
+                src={selectedPet.photoUrl}
                 alt={selectedPet.name}
                 style={{ width: '100%', borderRadius: '8px', marginTop: '16px' }}
               />

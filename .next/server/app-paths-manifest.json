@@ -1,5 +1,9 @@
 {
-  "/contato/page": "app/contato/page.js",
+  "/api/posts/route": "app/api/posts/route.js",
   "/page": "app/page.js",
-  "/todosPets/page": "app/todosPets/page.js"
+  "/todosPets/page": "app/todosPets/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/register/page": "app/admin/register/page.js"
 }

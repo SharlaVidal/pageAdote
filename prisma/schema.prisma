@@ -6,7 +6,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+enum AgeCategory {
+  Filhote
+  Adulto
+  Senior
+}
+
+enum Size {
+  Pequeno
+  Medio
+  Grande
+}
+
+model Pet {
   id          Int      @id @default(autoincrement())
   name        String
   ageCategory String   // 'Filhote', 'Adulto', 'Senior'

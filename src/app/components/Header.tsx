@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <AppBar position="static" color="default" sx={{ boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
+    <AppBar position="static" color="default" sx={{ boxShadow: 'none', borderBottom: '1px solid #ddd' , background:'#3FBADD'}}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo */}
         <Box display="flex" alignItems="center">
-          <img src="/logo.png" alt="Amigo Pet" style={{ height: 40, marginRight: 8 }} />
+          <img src="/images/Logo.jpg" alt="Amigo Pet" style={{ height: 40, marginRight: 8 }} />
           <Typography variant="h6" color="primary">
             Amigo Pet
           </Typography>
@@ -28,7 +28,7 @@ export default function Header() {
           <Button component={Link} href="/contato" sx={{ color: '#653d96' ,fontWeight: 'bold' }}>
             Contato
           </Button>
-          <Button component={Link} href="/package" sx={{ color: '#653d96',fontWeight: 'bold'  }}>
+          <Button component={Link} href="/admin/dashboard" sx={{ color: '#653d96',fontWeight: 'bold'  }}>
             Dashboard
           </Button>
         </Box>
